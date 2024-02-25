@@ -8,35 +8,29 @@ public class NearestNeighbour {
             throw new IllegalArgumentException("Datasets cannot be null");
         }
 
-        double[][] firstDatasetFeatures = extractFeatures(firstDataset);
-        int[] firstDatasetLabels = extractLabels(firstDataset);
+        Dataset firstDatasetExtracted = extractFeaturesAndLabels(firstDataset);
+        Dataset secondDatasetExtracted = extractFeaturesAndLabels(secondDataset);
 
-        double[][] secondDatasetFeatures = extractFeatures(secondDataset);
-        int[] secondDatasetLabels = extractLabels(secondDataset);
-
-        testWithEuclideanDistance(firstDatasetFeatures, firstDatasetLabels, secondDatasetFeatures, secondDatasetLabels);
+        evaluateAccuracyUsingNearestNeighbour(firstDatasetExtracted.features, firstDatasetExtracted.labels,
+                secondDatasetExtracted.features, secondDatasetExtracted.labels);
 
     }
 
-    private static double[][] extractFeatures(int[][] dataset) {
+    private static Dataset extractFeaturesAndLabels(int[][] dataset) {
         double[][] features = new double[dataset.length][INPUT_FEATURES_SIZE];
+        int[] labels = new int[dataset.length];
+
         for (int i = 0; i < dataset.length; i++) {
             for (int j = 0; j < INPUT_FEATURES_SIZE; j++) {
                 features[i][j] = dataset[i][j];
             }
-        }
-        return features;
-    }
-
-    private static int[] extractLabels(int[][] dataset) {
-        int[] labels = new int[dataset.length];
-        for (int i = 0; i < dataset.length; i++) {
             labels[i] = dataset[i][INPUT_FEATURES_SIZE];
         }
-        return labels;
+
+        return new Dataset(features, labels);
     }
 
-    public static void testWithEuclideanDistance(double[][] firstDatasetFeatures, int[] firstDatasetLabels,
+    public static void evaluateAccuracyUsingNearestNeighbour(double[][] firstDatasetFeatures, int[] firstDatasetLabels,
             double[][] secondDatasetFeatures, int[] secondDatasetLabels) {
         int correctPredictions = 0;
         for (int i = 0; i < secondDatasetFeatures.length; i++) {
@@ -55,7 +49,7 @@ public class NearestNeighbour {
         int nearestLabel = -1;
         double nearestDistance = Double.MAX_VALUE;
         for (int i = 0; i < trainingFeatures.length; i++) {
-            double distance = calculateEuclideanDistance(trainingFeatures[i], testFeature);
+            double distance = Utility.calculateEuclideanDistance(trainingFeatures[i], testFeature);
             if (distance < nearestDistance) {
                 nearestDistance = distance;
                 nearestLabel = trainingLabels[i];
@@ -64,11 +58,13 @@ public class NearestNeighbour {
         return nearestLabel;
     }
 
-    private static double calculateEuclideanDistance(double[] point1, double[] point2) {
-        double sum = 0.0;
-        for (int i = 0; i < point1.length; i++) {
-            sum += Math.pow(point1[i] - point2[i], 2);
+    private static class Dataset {
+        public double[][] features;
+        public int[] labels;
+
+        public Dataset(double[][] features, int[] labels) {
+            this.features = features;
+            this.labels = labels;
         }
-        return Math.sqrt(sum);
     }
 }

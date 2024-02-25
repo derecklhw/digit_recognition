@@ -5,6 +5,14 @@ package digit_recognition;
  */
 public class Utility {
 
+    public static double calculateEuclideanDistance(double[] point1, double[] point2) {
+        double sum = 0.0;
+        for (int i = 0; i < point1.length; i++) {
+            sum += Math.pow(point1[i] - point2[i], 2);
+        }
+        return Math.sqrt(sum);
+    }
+
     /**
      * Method that creates an array of specified size and
      * fills it with values of specified bounds
