@@ -6,54 +6,62 @@ import java.util.Scanner;
 public class Main {
 
 	public static void main(String[] args) {
+		if (!validateArguments(args)) {
+			return;
+		}
+		String trainingSetPath = args[0];
+		String testingSetPath = args[1];
+
+		loadAndExecute(trainingSetPath, testingSetPath);
+	}
+
+	private static boolean validateArguments(String[] args) {
 		if (args.length < 2) {
 			System.out.println("Usage: java -jar digit_recognition.jar <trainingSet> <testingSet>");
 			if (args.length == 0) {
 				System.out.println("No datasets provided.");
+				return false;
 			} else {
 				System.out.println(
-						"Only trainingSet provided. Please provide testingSet. Usage: java -jar digit_recognition.jar <trainingSet> <testingSet>");
+						"Only Training dataset provided. Please provide Testing dataset. Usage: java -jar digit_recognition.jar <trainingSet> <testingSet>");
+				return false;
 			}
-			return;
 		}
 
-		String firstDatasetPath = args[0];
-		String secondDatasetPath = args[1];
-
-		if (firstDatasetPath.equals(secondDatasetPath)) {
-			System.out.println(
-					"Both datasets are the same. Please provide different datasets. Usage: java -jar digit_recognition.jar <trainingSet> <testingSet>");
-			return;
+		if (args[0].equals(args[1])) {
+			System.out.println("Training and testing datasets must be different.");
+			return false;
 		}
-
-		try {
-			int[][] firstDataset = DatasetReader.readDataset(firstDatasetPath);
-			int[][] secondDataset = DatasetReader.readDataset(secondDatasetPath);
-			System.out.println("\nDatasets loaded successfully.");
-			System.out.println("Training set: " + firstDatasetPath);
-			System.out.println("Testing set: " + secondDatasetPath + '\n');
-
-			try (Scanner scanner = new Scanner(System.in)) {
-				int choice = UserInterface.getUserChoice(scanner);
-				executeChoice(choice, firstDataset, secondDataset);
-			}
-		} catch (FileNotFoundException e) {
-			System.err.println("File not found: "
-					+ (e.getMessage().equals(firstDatasetPath) ? firstDatasetPath : secondDatasetPath)
-					+ ". Please provide a valid file path.");
-		}
-
+		return true;
 	}
 
-	private static void executeChoice(int choice, int[][] firstDataset, int[][] secondDataset) {
+	private static void loadAndExecute(String trainingSetPath, String testingSetPath) {
+		try {
+			int[][] trainingSet = DatasetReader.readDataset(trainingSetPath);
+			int[][] testingSet = DatasetReader.readDataset(testingSetPath);
+			System.out.printf("\nDatasets loaded\nTraining set: %s\nTesting set: %s\n\n", trainingSetPath,
+					testingSetPath);
+
+			try (Scanner scanner = new Scanner(System.in)) {
+				while (true) {
+					int choice = UserInterface.getUserChoice(scanner);
+					executeChoice(choice, trainingSet, testingSet);
+				}
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println(e.getMessage() + "Please provide a valid path to the dataset.");
+		}
+	}
+
+	private static void executeChoice(int choice, int[][] trainingSet, int[][] testingSet) {
 		switch (choice) {
 			case 1:
 				System.out.println("\nUsing Nearest Neighbour...\n");
-				NearestNeighbour.execute(firstDataset, secondDataset);
+				NearestNeighbour.execute(trainingSet, testingSet);
 				break;
 			case 2:
 				System.out.println("\nUsing Multilayer Layer Perceptron...\n");
-				MultiLayerPerceptron.execute(firstDataset, secondDataset);
+				MultiLayerPerceptron.execute(trainingSet, testingSet);
 				break;
 			case 3:
 				System.out.println("Exiting...");
