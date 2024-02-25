@@ -1,8 +1,6 @@
 package digit_recognition;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 public class MultiLayerPerceptron {
     public static final double LEARNING_RATE = 0.05;
@@ -19,17 +17,16 @@ public class MultiLayerPerceptron {
     private static final boolean SHOW_LABELS = false;
 
     public static void execute(int[][] firstDataset, int[][] secondDataset) {
-        final String TRAINING_FILE_PATH = "/home/dereck/Downloads/Digit-Recognition-MDX-Coursework/datasets/cw2DataSet1.csv";
-        final String TEST_FILE_PATH = "/home/dereck/Downloads/Digit-Recognition-MDX-Coursework/datasets/cw2DataSet2.csv";
-
         NetworkBase network = new NetworkBase(new int[] { INPUT_LAYER_NODE_AMOUNT, FIRST_HIDDEN_LAYER_NODE_AMOUNT,
                 SECOND_HIDDEN_LAYER_NODE_AMOUNT, 10 });
         try {
             System.out.println("Creating training set...");
-            TrainingSet set = createTrainingSet(TRAINING_FILE_PATH);
-            trainData(network, set, TRAINING_EPOCHS_VALUE, TRAINING_LOOPS_VALUE, TRAINING_BATCH_SIZE);
+            TrainingSet set = createSet(firstDataset);
+            trainData(network, set, TRAINING_EPOCHS_VALUE, TRAINING_LOOPS_VALUE,
+                    TRAINING_BATCH_SIZE);
+            System.out.println("Creating testing set...");
+            TrainingSet testSet = createSet(secondDataset);
             System.out.println("Testing neural network...");
-            TrainingSet testSet = createTestingSet(TEST_FILE_PATH);
             testTrainSet(network, testSet);
         } catch (FileNotFoundException ex) {
             System.out.println("Error when reading NN test or train file!");
@@ -67,74 +64,27 @@ public class MultiLayerPerceptron {
      * @return the newly created training set
      * @throws FileNotFoundException
      */
-    public static TrainingSet createTrainingSet(String trainingFilePath) throws FileNotFoundException {
+    public static TrainingSet createSet(int[][] dataset) throws FileNotFoundException {
         TrainingSet set = new TrainingSet(INPUT_LAYER_NODE_AMOUNT, 10);
-        Scanner scanner = new Scanner(new File(trainingFilePath));
-        // Do while there is new line.
-        while (scanner.hasNextLine()) {
-            // Read in and split the line
-            String line = scanner.nextLine();
-            int lastCommaIndex = line.lastIndexOf(',');
-            int label = Integer.parseInt(line.substring(lastCommaIndex + 1, lastCommaIndex + 2));
-            String newLine = line.substring(0, lastCommaIndex);
-            String[] splitLine = newLine.split(",");
 
-            // Build an array to add to a set
-            double[] splitLineNumber = new double[splitLine.length];
-            for (int i = 0; i < splitLine.length; i++) {
-                splitLineNumber[i] = Double.parseDouble(splitLine[i]);
+        for (int[] row : dataset) {
+            // The label is the last element in the row
+            int label = row[row.length - 1];
+
+            // Initialize an array to hold the input features
+            double[] inputFeatures = new double[row.length - 1];
+            for (int i = 0; i < row.length - 1; i++) {
+                inputFeatures[i] = row[i];
             }
+
+            // Initialize an array to hold the output (label) for the input features
             double[] output = new double[10];
             output[label] = 1d;
 
-            // print the output array
-            System.out.println("\nOutput array: ");
-            for (int i = 0; i < output.length; i++) {
-                System.out.println(output[i]);
-            }
-
-            // print the splitLineNumber array
-            System.out.println("\nSplitLineNumber array: ");
-            for (int i = 0; i < splitLineNumber.length; i++) {
-                System.out.println(splitLineNumber[i]);
-            }
-
-            set.addData(splitLineNumber, output);
+            set.addData(inputFeatures, output);
         }
-        scanner.close();
         return set;
-    }
 
-    /**
-     * Method that builds a testing set and returns a
-     * RecognizingHandwrittenDigits.TrainingSet object that
-     * that is used for testing
-     * 
-     * @return RecognizingHandwrittenDigits.TrainingSet object
-     * @throws FileNotFoundException
-     */
-    public static TrainingSet createTestingSet(String testFilePath) throws FileNotFoundException {
-        TrainingSet set = new TrainingSet(INPUT_LAYER_NODE_AMOUNT, 10);
-        Scanner scanner = new Scanner(new File(testFilePath));
-        // Do while there is new line.
-        while (scanner.hasNextLine()) {
-            // Read in and split the line
-            String line = scanner.nextLine();
-            int lastCommaIndex = line.lastIndexOf(',');
-            int label = Integer.parseInt(line.substring(lastCommaIndex + 1, lastCommaIndex + 2));
-            String newLine = line.substring(0, lastCommaIndex);
-            String[] splitLine = newLine.split(",");
-            // Build an array to add to a set
-            double[] splitLineNumber = new double[splitLine.length];
-            for (int i = 0; i < splitLine.length; i++) {
-                splitLineNumber[i] = Double.parseDouble(splitLine[i]);
-            }
-            double[] output = new double[10];
-            output[label] = 1d;
-            set.addData(splitLineNumber, output);
-        }
-        scanner.close();
-        return set;
     }
 
     /**
