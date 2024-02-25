@@ -45,7 +45,8 @@ public class Main {
 			try (Scanner scanner = new Scanner(System.in)) {
 				while (true) {
 					int choice = UserInterface.getUserChoice(scanner);
-					executeChoice(choice, trainingSet, testingSet);
+					if (!executeChoice(choice, trainingSet, testingSet))
+						break;
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -53,7 +54,7 @@ public class Main {
 		}
 	}
 
-	private static void executeChoice(int choice, int[][] trainingSet, int[][] testingSet) {
+	private static boolean executeChoice(int choice, int[][] trainingSet, int[][] testingSet) {
 		switch (choice) {
 			case 1:
 				System.out.println("\nUsing Nearest Neighbour...\n");
@@ -65,11 +66,11 @@ public class Main {
 				break;
 			case 3:
 				System.out.println("Exiting...");
-				return;
+				return false;
 			default:
 				System.out.println("Invalid choice. Please try again.");
-				return;
 		}
+		return true;
 	}
 
 }
