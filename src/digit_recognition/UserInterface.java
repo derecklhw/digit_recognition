@@ -2,7 +2,15 @@ package digit_recognition;
 
 import java.util.Scanner;
 
+/**
+ * Class responsible for the user interface.
+ */
 public class UserInterface {
+    /**
+     * Main method of the application.
+     *
+     * @param args command line arguments
+     */
     public static int getUserChoice(Scanner scanner) {
         int choice = 0;
 
@@ -22,6 +30,9 @@ public class UserInterface {
         }
     }
 
+    /**
+     * Displays the menu for the user.
+     */
     private static void displayMenu() {
         System.out.println("Select an algorithm for digit recognition:");
         System.out.println("1. Nearest Neighbour");

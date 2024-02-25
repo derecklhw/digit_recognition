@@ -109,11 +109,13 @@ public class TrainingSet {
         private final double[] input;
         private final double[] output;
 
+        // Constructor for the DataPoint class
         public DataPoint(double[] input, double[] output) {
             this.input = input;
             this.output = output;
         }
 
+        // Getters for the input and output
         public double[] getInput() {
             return input;
         }

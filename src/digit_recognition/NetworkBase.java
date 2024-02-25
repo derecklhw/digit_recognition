@@ -1,7 +1,11 @@
 package digit_recognition;
 
+/**
+ * Base class for the network.
+ */
 public class NetworkBase {
 
+    // Constants for the network
     public final int[] NETWORK_LAYER_SIZE;
     public final int INPUT_LAYER_SIZE;
     public final int OUTPUT_LAYER_SIZE;
@@ -14,7 +18,13 @@ public class NetworkBase {
     private double[][] error_signal;
     private double[][] output_derivative;
 
+    /**
+     * Constructor for the network.
+     *
+     * @param NETWORK_LAYER_SIZE the network layer size
+     */
     public NetworkBase(int[] NETWORK_LAYER_SIZE) {
+
         this.NETWORK_LAYER_SIZE = NETWORK_LAYER_SIZE;
         this.INPUT_LAYER_SIZE = NETWORK_LAYER_SIZE[0];
         this.NETWORK_SIZE = NETWORK_LAYER_SIZE.length;
@@ -40,6 +50,14 @@ public class NetworkBase {
         }
     }
 
+    /**
+     * Trains the network.
+     *
+     * @param set        the training set
+     * @param epochs     the epochs
+     * @param loops      the loops
+     * @param batch_size the batch size
+     */
     public void train(TrainingSet set, int epochs, int loops, int batch_size) {
         if (set.getInputSize() != INPUT_LAYER_SIZE || set.getOutputSize() != OUTPUT_LAYER_SIZE) {
             return;
@@ -56,6 +74,11 @@ public class NetworkBase {
         }
     }
 
+    /**
+     * Evaluates the network.
+     *
+     * @param trainingSet the training set
+     */
     public void evaluate(TrainingSet trainingSet) {
         int correct = 0;
         for (int i = 0; i < trainingSet.size(); i++) {
@@ -69,6 +92,12 @@ public class NetworkBase {
         UserInterface.printFinalResults(correct, trainingSet.size());
     }
 
+    /**
+     * Forward propagation.
+     *
+     * @param input the input
+     * @return the double[]
+     */
     public double[] forward(double[] input) {
         if (input.length != this.INPUT_LAYER_SIZE) {
             return null;
@@ -91,6 +120,11 @@ public class NetworkBase {
         return output[NETWORK_SIZE - 1];
     }
 
+    /**
+     * Backward propagation.
+     *
+     * @param target the target
+     */
     private void backward(double[] target) {
         for (int layer = NETWORK_SIZE - 1; layer > 0; layer--) {
             for (int neuron = 0; neuron < NETWORK_LAYER_SIZE[layer]; neuron++) {
@@ -110,6 +144,11 @@ public class NetworkBase {
         }
     }
 
+    /**
+     * Updates the weights.
+     *
+     * @param learningRate the learning rate
+     */
     public void updateWeights(double learningRate) {
         for (int layer = 1; layer < NETWORK_SIZE; layer++) {
             for (int neuron = 0; neuron < NETWORK_LAYER_SIZE[layer]; neuron++) {
@@ -122,6 +161,12 @@ public class NetworkBase {
         }
     }
 
+    /**
+     * Sigmoid function.
+     *
+     * @param inputValue the input value
+     * @return the double
+     */
     private double sigmoidFunction(double inputValue) {
         return 1D / (1 + Math.exp(-inputValue));
     }

@@ -2,7 +2,12 @@ package digit_recognition;
 
 import java.io.FileNotFoundException;
 
+/**
+ * Class responsible for creating and training the neural network.
+ */
 public class MultiLayerPerceptron {
+
+    // Constants for the neural network
     public static final double LEARNING_RATE = 0.05;
     public final static double BIAS_RANGE_SMALLEST = -0.5;
     public final static double BIAS_RANGE_BIGGEST = 0.7;
@@ -15,6 +20,12 @@ public class MultiLayerPerceptron {
     final static int SECOND_HIDDEN_LAYER_NODE_AMOUNT = 15;
     final static int INPUT_LAYER_NODE_AMOUNT = 64;
 
+    /**
+     * Creates and trains the neural network.
+     *
+     * @param firstDataset  the first dataset
+     * @param secondDataset the second dataset
+     */
     public static void execute(int[][] firstDataset, int[][] secondDataset) {
         NetworkBase network = new NetworkBase(new int[] { INPUT_LAYER_NODE_AMOUNT, FIRST_HIDDEN_LAYER_NODE_AMOUNT,
                 SECOND_HIDDEN_LAYER_NODE_AMOUNT, 10 });
@@ -34,6 +45,13 @@ public class MultiLayerPerceptron {
         }
     }
 
+    /**
+     * Creates a training set from the dataset.
+     *
+     * @param dataset the dataset
+     * @return the training set
+     * @throws FileNotFoundException if the file is not found
+     */
     public static TrainingSet createSet(int[][] dataset) throws FileNotFoundException {
         TrainingSet set = new TrainingSet(INPUT_LAYER_NODE_AMOUNT, 10);
 
