@@ -29,4 +29,16 @@ public class UserInterface {
         System.out.println("3. Exit");
         System.out.print("\nEnter your choice (number): ");
     }
+
+    /**
+     * Prints out the accuracy of an algorithm
+     * 
+     * @param correctPredictions total of correct guessed results
+     * @param totalInputs        total inputs number
+     */
+    public static void printFinalResults(int correctPredictions, int totalInputs) {
+        System.out.println("Correct Predictions: " + correctPredictions + " out of " + totalInputs);
+        System.out.println("Accuracy: " + (double) ((double) correctPredictions / (double) totalInputs) + "\n");
+    }
+
 }

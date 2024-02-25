@@ -49,19 +49,6 @@ public class TrainingSet {
             return this;
     }
 
-    /*
-     * public String toString() {
-     * String s = "TrainSet ["+INPUT_SIZE+ " ; "+OUTPUT_SIZE+"]\n";
-     * int index = 0;
-     * for(double[][] r:data) {
-     * s += index +":   "+Arrays.toString(r[0]) +"  >-||-<  "+Arrays.toString(r[1])
-     * +"\n";
-     * index++;
-     * }
-     * return s;
-     * }
-     */
-
     /**
      * Returns the size of the set
      * 

@@ -2,7 +2,12 @@ package digit_recognition;
 
 import java.io.FileNotFoundException;
 
+/**
+ * This is the main class that has all the options and settings, also runs other
+ * to solve the digit task.
+ */
 public class MultiLayerPerceptron {
+    // Neural Network settings
     public static final double LEARNING_RATE = 0.05;
     public final static double BIAS_RANGE_SMALLEST = -0.5;
     public final static double BIAS_RANGE_BIGGEST = 0.7;
@@ -14,14 +19,21 @@ public class MultiLayerPerceptron {
     final static int FIRST_HIDDEN_LAYER_NODE_AMOUNT = 26;
     final static int SECOND_HIDDEN_LAYER_NODE_AMOUNT = 15;
     final static int INPUT_LAYER_NODE_AMOUNT = 64;
-    private static final boolean SHOW_LABELS = false;
 
+    /**
+     * This method is the main method for the MultiLayerPerceptron class, it
+     * initializes the network, creates the training set and tests the network.
+     * 
+     * @param firstDataset
+     * @param secondDataset
+     */
     public static void execute(int[][] firstDataset, int[][] secondDataset) {
         NetworkBase network = new NetworkBase(new int[] { INPUT_LAYER_NODE_AMOUNT, FIRST_HIDDEN_LAYER_NODE_AMOUNT,
                 SECOND_HIDDEN_LAYER_NODE_AMOUNT, 10 });
         try {
             System.out.println("Creating training set...");
             TrainingSet set = createSet(firstDataset);
+            System.out.println("Training neural network...");
             trainData(network, set, TRAINING_EPOCHS_VALUE, TRAINING_LOOPS_VALUE,
                     TRAINING_BATCH_SIZE);
             System.out.println("Creating testing set...");
@@ -48,20 +60,18 @@ public class MultiLayerPerceptron {
         for (int i = 0; i < set.size(); i++) {
             double highest = Utility.returnIndexOfHighestValue(net.calculationFunction(set.getInput(i)));
             double actualHighest = Utility.returnIndexOfHighestValue(set.getOutput(i));
-            if (SHOW_LABELS) {
-                System.out.println("Guess: " + highest + " Real number: " + actualHighest);
-            }
             if (highest == actualHighest) {
                 correct++;
             }
         }
-        Utility.printFinalResults(correct, set.size());
+        UserInterface.printFinalResults(correct, set.size());
     }
 
     /**
-     * Method that reads a training file, build a TrainingSet object from the inputs
+     * Method that reads a file, build a Set object from the inputs
      * 
-     * @return the newly created training set
+     * @param dataset - the dataset to be read
+     * @return the newly created set
      * @throws FileNotFoundException
      */
     public static TrainingSet createSet(int[][] dataset) throws FileNotFoundException {
@@ -98,12 +108,8 @@ public class MultiLayerPerceptron {
      *                   improve accuracy )
      */
     public static void trainData(NetworkBase net, TrainingSet set, int epochs, int loops, int batch_size) {
-        System.out.println("Training neural network...");
         for (int epoch = 0; epoch < epochs; epoch++) {
             net.train(set, loops, batch_size);
-            if (SHOW_LABELS) {
-                System.out.println("Epochs : " + epoch + "/" + epochs);
-            }
         }
     }
 }

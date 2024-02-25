@@ -7,11 +7,12 @@ public class Main {
 
 	public static void main(String[] args) {
 		if (args.length < 2) {
-			System.out.println("Usage: java -jar digit_recognition.jar <dataset1> <dataset2>");
+			System.out.println("Usage: java -jar digit_recognition.jar <trainingSet> <testingSet>");
 			if (args.length == 0) {
 				System.out.println("No datasets provided.");
 			} else {
-				System.out.println("Only one dataset provided. Please provide two datasets for training and testing");
+				System.out.println(
+						"Only trainingSet provided. Please provide testingSet. Usage: java -jar digit_recognition.jar <trainingSet> <testingSet>");
 			}
 			return;
 		}
@@ -21,14 +22,16 @@ public class Main {
 
 		if (firstDatasetPath.equals(secondDatasetPath)) {
 			System.out.println(
-					"Both datasets are the same. Please provide different datasets. Usage: java -jar digit_recognition.jar <dataset1> <dataset2>");
+					"Both datasets are the same. Please provide different datasets. Usage: java -jar digit_recognition.jar <trainingSet> <testingSet>");
 			return;
 		}
 
 		try {
 			int[][] firstDataset = DatasetReader.readDataset(firstDatasetPath);
 			int[][] secondDataset = DatasetReader.readDataset(secondDatasetPath);
-			System.out.println("Both datasets loaded successfully.\n");
+			System.out.println("\nDatasets loaded successfully.");
+			System.out.println("Training set: " + firstDatasetPath);
+			System.out.println("Testing set: " + secondDatasetPath + '\n');
 
 			try (Scanner scanner = new Scanner(System.in)) {
 				int choice = UserInterface.getUserChoice(scanner);
@@ -45,11 +48,11 @@ public class Main {
 	private static void executeChoice(int choice, int[][] firstDataset, int[][] secondDataset) {
 		switch (choice) {
 			case 1:
-				System.out.println("\nUsing Nearest Neighbour...");
+				System.out.println("\nUsing Nearest Neighbour...\n");
 				NearestNeighbour.execute(firstDataset, secondDataset);
 				break;
 			case 2:
-				System.out.println("\nUsing Multilayer Layer Perceptron...");
+				System.out.println("\nUsing Multilayer Layer Perceptron...\n");
 				MultiLayerPerceptron.execute(firstDataset, secondDataset);
 				break;
 			case 3:

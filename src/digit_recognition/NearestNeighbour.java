@@ -15,7 +15,6 @@ public class NearestNeighbour {
         int[] secondDatasetLabels = extractLabels(secondDataset);
 
         testWithEuclideanDistance(firstDatasetFeatures, firstDatasetLabels, secondDatasetFeatures, secondDatasetLabels);
-        testWithEuclideanDistance(secondDatasetFeatures, secondDatasetLabels, firstDatasetFeatures, firstDatasetLabels);
 
     }
 
@@ -47,8 +46,8 @@ public class NearestNeighbour {
                 correctPredictions++;
             }
         }
-        double accuracy = (double) correctPredictions / secondDatasetFeatures.length;
-        System.out.println("Accuracy: " + accuracy);
+
+        UserInterface.printFinalResults(correctPredictions, secondDatasetFeatures.length);
     }
 
     private static int classifyUsingNearestNeighbour(double[][] trainingFeatures, int[] trainingLabels,

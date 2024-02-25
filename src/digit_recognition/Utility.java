@@ -6,30 +6,6 @@ package digit_recognition;
 public class Utility {
 
     /**
-     * Method that creates an array of specified size and fills it with initial
-     * values
-     * 
-     * @param range        size of an array
-     * @param initialValue initial value of array values
-     * @return returns a new array
-     */
-    /*
-     * public static double[] buildArray(int range, double initialValue){
-     * //If requested to generate an empty array return null
-     * if(range < 1){
-     * return null;
-     * }
-     * //Create an array of specified range
-     * double[] returnArray = new double[range];
-     * //Iterate through the array an fill it with initial values.
-     * for(int index = 0; index < range; index++){
-     * returnArray[index] = initialValue;
-     * }
-     * return returnArray;
-     * }
-     */
-
-    /**
      * Method that creates an array of specified size and
      * fills it with values of specified bounds
      * 
@@ -154,14 +130,4 @@ public class Utility {
         return returnIndex;
     }
 
-    /**
-     * Prints out the accuracy of an algorithm
-     * 
-     * @param goodResults total of correct guessed results
-     * @param totalInputs total inputs number
-     */
-    public static void printFinalResults(int goodResults, int totalInputs) {
-        System.out.println(goodResults + "/" + totalInputs);
-        System.out.println("Accuracy: " + (double) ((double) goodResults * 100 / (double) totalInputs) + "% ");
-    }
 }
