@@ -41,7 +41,7 @@ public class NetworkBase {
     }
 
     public void train(TrainingSet set, int epochs, int loops, int batch_size) {
-        if (set.INPUT_SIZE != INPUT_LAYER_SIZE || set.OUTPUT_SIZE != OUTPUT_LAYER_SIZE) {
+        if (set.getInputSize() != INPUT_LAYER_SIZE || set.getOutputSize() != OUTPUT_LAYER_SIZE) {
             return;
         }
         for (int epoch = 0; epoch < epochs; epoch++) {

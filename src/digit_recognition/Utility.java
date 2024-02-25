@@ -1,10 +1,19 @@
 package digit_recognition;
 
+import java.util.Arrays;
+
 /**
  * Class that contains utility methods for the application
  */
 public class Utility {
 
+    /**
+     * Method that calculates the Euclidean distance between two points
+     * 
+     * @param point1
+     * @param point2
+     * @return
+     */
     public static double calculateEuclideanDistance(double[] point1, double[] point2) {
         double sum = 0.0;
         for (int i = 0; i < point1.length; i++) {
@@ -14,8 +23,8 @@ public class Utility {
     }
 
     /**
-     * Method that creates an array of specified size and
-     * fills it with values of specified bounds
+     * Method that creates a random array of specified size and fills it with
+     * values of specified bounds
      * 
      * @param range    size of an array
      * @param smallest lower bound
@@ -23,14 +32,10 @@ public class Utility {
      * @return random array
      */
     public static double[] buildRandomArray(int range, double smallest, double biggest) {
-        // If requested to generate an empty array return null
         if (range < 1) {
-            return null;
+            return new double[0];
         }
-        // Create an array of specified range
         double[] returnArray = new double[range];
-        // Iterate through the array an fill it with random value withing
-        // the specified range
         for (int index = 0; index < range; index++) {
             returnArray[index] = generateRandomValue(smallest, biggest);
         }
@@ -45,17 +50,13 @@ public class Utility {
      * @param rangeY   2nd dimension size
      * @param smallest lower bound
      * @param biggest  higher bound
-     * @return 2 dimension random array
+     * @return 2D random array
      */
     public static double[][] buildRandomArray(int rangeX, int rangeY, double smallest, double biggest) {
-        // If requested to generate an empty array return null
         if (rangeX < 1 || rangeY < 1) {
             return null;
         }
-        // Create an array of specified range
         double[][] returnArray = new double[rangeX][rangeY];
-        // Iterate through the array of specified size, and build a random array
-        // of specified size
         for (int index = 0; index < rangeX; index++) {
             returnArray[index] = buildRandomArray(rangeY, smallest, biggest);
         }
@@ -109,17 +110,8 @@ public class Utility {
      * @param value value to compare
      * @return result
      */
-    public static <T extends Comparable<T>> boolean containsValue(T[] array, T value) {
-        for (int index = 0; index < array.length; index++) {
-            if (array[index] != null) {
-                if (value.compareTo(array[index]) == 0) {
-                    // If contains return true
-                    return true;
-                }
-            }
-        }
-        // If doesnt contain return false
-        return false;
+    public static <T> boolean containsValue(T[] array, T value) {
+        return Arrays.asList(array).contains(value);
     }
 
     /**
