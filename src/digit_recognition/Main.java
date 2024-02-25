@@ -57,11 +57,11 @@ public class Main {
 	private static boolean executeChoice(int choice, int[][] trainingSet, int[][] testingSet) {
 		switch (choice) {
 			case 1:
-				System.out.println("\nUsing Nearest Neighbour...\n");
+				System.out.println("Using Nearest Neighbour...\n");
 				NearestNeighbour.execute(trainingSet, testingSet);
 				break;
 			case 2:
-				System.out.println("\nUsing Multilayer Layer Perceptron...\n");
+				System.out.println("Using Multilayer Layer Perceptron...\n");
 				MultiLayerPerceptron.execute(trainingSet, testingSet);
 				break;
 			case 3:
