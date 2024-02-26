@@ -10,19 +10,19 @@ public class NearestNeighbour {
     /**
      * Executes the nearest neighbour algorithm.
      *
-     * @param firstDataset  the first dataset
-     * @param secondDataset the second dataset
+     * @param trainingDataset the training dataset
+     * @param testingDataset  the testing dataset
      */
-    public static void execute(int[][] firstDataset, int[][] secondDataset) {
-        if (firstDataset == null || secondDataset == null) {
+    public static void execute(int[][] trainingDataset, int[][] testingDataset) {
+        if (trainingDataset == null || testingDataset == null) {
             throw new IllegalArgumentException("Datasets cannot be null");
         }
 
-        Dataset firstDatasetExtracted = extractFeaturesAndLabels(firstDataset);
-        Dataset secondDatasetExtracted = extractFeaturesAndLabels(secondDataset);
+        Dataset trainingDatasetExtracted = extractFeaturesAndLabels(trainingDataset);
+        Dataset testingDatasetExtracted = extractFeaturesAndLabels(testingDataset);
 
-        evaluateAccuracyUsingNearestNeighbour(firstDatasetExtracted.features, firstDatasetExtracted.labels,
-                secondDatasetExtracted.features, secondDatasetExtracted.labels);
+        evaluateAccuracyUsingNearestNeighbour(trainingDatasetExtracted.features, trainingDatasetExtracted.labels,
+                testingDatasetExtracted.features, testingDatasetExtracted.labels);
     }
 
     /**
@@ -48,23 +48,27 @@ public class NearestNeighbour {
     /**
      * Evaluates the accuracy using the nearest neighbour algorithm.
      *
-     * @param firstDatasetFeatures  the features of the first dataset
-     * @param firstDatasetLabels    the labels of the first dataset
-     * @param secondDatasetFeatures the features of the second dataset
-     * @param secondDatasetLabels   the labels of the second dataset
+     * @param trainingDatasetFeatures the features of the training dataset
+     * @param trainingDatasetLabels   the labels of the training dataset
+     * @param testingDatasetFeatures  the features of the testing dataset
+     * @param testingDatasetLabels    the labels of the testing dataset
      */
-    public static void evaluateAccuracyUsingNearestNeighbour(double[][] firstDatasetFeatures, int[] firstDatasetLabels,
-            double[][] secondDatasetFeatures, int[] secondDatasetLabels) {
+    public static void evaluateAccuracyUsingNearestNeighbour(
+            double[][] trainingDatasetFeatures,
+            int[] trainingDatasetLabels,
+            double[][] testingDatasetFeatures,
+            int[] testingDatasetLabels) {
         int correctPredictions = 0;
-        for (int i = 0; i < secondDatasetFeatures.length; i++) {
-            int predictedLabel = classifyUsingNearestNeighbour(firstDatasetFeatures, firstDatasetLabels,
-                    secondDatasetFeatures[i]);
-            if (predictedLabel == secondDatasetLabels[i]) {
+        for (int i = 0; i < testingDatasetFeatures.length; i++) {
+            int predictedLabel = classifyUsingNearestNeighbour(trainingDatasetFeatures, trainingDatasetLabels,
+                    testingDatasetFeatures[i]);
+            if (predictedLabel == testingDatasetLabels[i]) {
                 correctPredictions++;
             }
         }
 
-        UserInterface.printFinalResults(correctPredictions, secondDatasetFeatures.length);
+        // Prints the evaluation results
+        UserInterface.printFinalResults(correctPredictions, testingDatasetFeatures.length);
     }
 
     /**

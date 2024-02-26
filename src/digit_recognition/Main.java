@@ -44,7 +44,8 @@ public class Main {
 
 		// Check if the datasets are different
 		if (args[0].equals(args[1])) {
-			System.out.println("Training and testing datasets must be different.");
+			System.out.println(
+					"Training and testing datasets must be different. Usage: java -jar digit_recognition.jar <trainingSet> <testingSet>");
 			return false;
 		}
 		return true;

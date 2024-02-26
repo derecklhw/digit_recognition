@@ -8,10 +8,17 @@ import java.util.List;
  * of a set.
  */
 public class TrainingSet {
+    // Constants for the training set
     private final int inputSize;
     private final int outputSize;
     private List<DataPoint> data;
 
+    /**
+     * Constructor for the training set.
+     * 
+     * @param inputSize  the input size
+     * @param outputSize the output size
+     */
     public TrainingSet(int inputSize, int outputSize) {
         this.inputSize = inputSize;
         this.outputSize = outputSize;
