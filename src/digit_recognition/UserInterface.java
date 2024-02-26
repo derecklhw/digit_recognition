@@ -36,8 +36,9 @@ public class UserInterface {
     private static void displayMenu() {
         System.out.println("Select an algorithm for digit recognition:");
         System.out.println("1. Nearest Neighbour");
-        System.out.println("2. Multilayer Layer Perceptron");
-        System.out.println("3. Exit");
+        System.out.println("2. K Nearest Neighbours");
+        System.out.println("3. Multilayer Layer Perceptron");
+        System.out.println("4. Exit");
         System.out.print("\nEnter your choice (number): ");
     }
 

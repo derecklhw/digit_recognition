@@ -79,10 +79,10 @@ public class Main {
 	/**
 	 * Executes the user's choice.
 	 *
-	 * @param choice      user's choice
-	 * @param trainingSet training dataset
-	 * @param testingSet  testing dataset
-	 * @return true if the application should continue, false otherwise
+	 * @param choice      the user's choice
+	 * @param trainingSet the training dataset
+	 * @param testingSet  the testing dataset
+	 * @return true if the user wants to continue, false otherwise
 	 */
 	private static boolean executeChoice(int choice, int[][] trainingSet, int[][] testingSet) {
 		switch (choice) {
@@ -91,10 +91,14 @@ public class Main {
 				NearestNeighbour.execute(trainingSet, testingSet);
 				break;
 			case 2:
+				System.out.println("Using K-Nearest Neighbour...\n");
+				KNearestNeighbours.execute(trainingSet, testingSet);
+				break;
+			case 3:
 				System.out.println("Using Multilayer Layer Perceptron...\n");
 				MultiLayerPerceptron.execute(trainingSet, testingSet);
 				break;
-			case 3:
+			case 4:
 				System.out.println("Exiting...");
 				return false;
 			default:
