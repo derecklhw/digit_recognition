@@ -71,7 +71,7 @@ public class Main {
 				}
 			}
 		} catch (FileNotFoundException e) {
-			System.out.println(e.getMessage() + "Please provide a valid path to the dataset.");
+			System.out.println(e.getMessage() + ". Please provide a valid path to the dataset.");
 		}
 	}
 
