@@ -4,7 +4,7 @@
 
 ### Compiling
 
-Navigate to the src directory and compile the Java application:
+Navigate to the `src` directory and compile the Java application:
 
 ```bash
 javac digit_recognition/*.java
@@ -13,5 +13,5 @@ javac digit_recognition/*.java
 ### Running
 
 ```bash
-java digit_recognition.Main <dataset1> <dataset2>
+java digit_recognition.Main <trainingSet> <testingSet>
 ```
