@@ -33,7 +33,7 @@ public class MultiLayerPerceptron {
             TrainingSet set = createSet(firstDataset);
             TrainingSet testSet = createSet(secondDataset);
 
-            System.out.println("Training neural network...");
+            System.out.println("Training neural network in progress...");
             network.train(set, TRAINING_EPOCHS_VALUE, TRAINING_LOOPS_VALUE,
                     TRAINING_BATCH_SIZE);
 

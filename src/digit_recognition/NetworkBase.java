@@ -60,6 +60,7 @@ public class NetworkBase {
      */
     public void train(TrainingSet set, int epochs, int loops, int batchSize) {
         for (int epoch = 0; epoch < epochs; epoch++) {
+            System.out.println("\rEpochs : " + epoch + "/" + epochs);
             for (int loop = 0; loop < loops; loop++) {
                 // Extracts a mini-batch from the training set
                 TrainingSet batch = set.extractBatch(batchSize);
@@ -74,6 +75,7 @@ public class NetworkBase {
                 }
             }
         }
+        System.out.println("\nTraining neural network complete.");
     }
 
     /**
