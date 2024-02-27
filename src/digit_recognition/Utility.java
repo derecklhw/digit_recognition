@@ -23,6 +23,21 @@ public class Utility {
     }
 
     /**
+     * Method that calculates the Manhattan distance between two points
+     * 
+     * @param point1
+     * @param point2
+     * @return
+     */
+    public static double calculateManhattanDistance(double[] point1, double[] point2) {
+        double sum = 0.0;
+        for (int i = 0; i < point1.length; i++) {
+            sum += Math.abs(point1[i] - point2[i]);
+        }
+        return sum;
+    }
+
+    /**
      * Method that creates a random array of specified size and fills it with
      * values of specified bounds
      * 
