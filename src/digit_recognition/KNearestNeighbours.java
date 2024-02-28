@@ -17,8 +17,9 @@ public class KNearestNeighbours {
      *
      * @param trainingDataset the training dataset
      * @param testingDataset  the testing dataset
+     * @return the accuracy of the k-nearest neighbours algorithm
      */
-    public static void execute(int[][] trainingDataset, int[][] testingDataset) {
+    public static double execute(int[][] trainingDataset, int[][] testingDataset) {
         // Check if the datasets are null
         if (trainingDataset == null || testingDataset == null) {
             throw new IllegalArgumentException("Datasets cannot be null");
@@ -29,8 +30,11 @@ public class KNearestNeighbours {
         Dataset testingDatasetExtracted = extractFeaturesAndLabels(testingDataset);
 
         // Evaluate the accuracy using the k-nearest neighbours algorithm
-        evaluateAccuracyUsingKNearestNeighbours(trainingDatasetExtracted.features, trainingDatasetExtracted.labels,
+        double accuracy = evaluateAccuracyUsingKNearestNeighbours(trainingDatasetExtracted.features,
+                trainingDatasetExtracted.labels,
                 testingDatasetExtracted.features, testingDatasetExtracted.labels, K);
+
+        return accuracy;
     }
 
     /**
@@ -58,15 +62,16 @@ public class KNearestNeighbours {
     }
 
     /**
-     * Evaluates the accuracy using the k-nearest neighbours algorithm.
+     * Evaluates the accuracy of the k-nearest neighbours algorithm.
      *
      * @param trainingFeatures the features of the training dataset
      * @param trainingLabels   the labels of the training dataset
      * @param testingFeatures  the features of the testing dataset
      * @param testingLabels    the labels of the testing dataset
      * @param k                the number of neighbours to consider
+     * @return accuracy of the k-nearest neighbours algorithm
      */
-    public static void evaluateAccuracyUsingKNearestNeighbours(
+    public static double evaluateAccuracyUsingKNearestNeighbours(
             double[][] trainingFeatures,
             int[] trainingLabels,
             double[][] testingFeatures,
@@ -86,7 +91,8 @@ public class KNearestNeighbours {
         }
 
         // Prints the evaluation results
-        UserInterface.printFinalResults(correctPredictions, testingFeatures.length);
+        double accuracy = UserInterface.printFinalResults(correctPredictions, testingFeatures.length);
+        return accuracy;
     }
 
     /**

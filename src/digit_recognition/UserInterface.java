@@ -44,14 +44,17 @@ public class UserInterface {
     }
 
     /**
-     * Prints out the accuracy of an algorithm
-     * 
-     * @param correctPredictions total of correct guessed results
-     * @param totalInputs        total inputs number
+     * Method that prints the final results of the application.
+     *
+     * @param correctPredictions the number of correct predictions
+     * @param totalInputs        the total number of inputs
+     * @return the accuracy of the application
      */
-    public static void printFinalResults(int correctPredictions, int totalInputs) {
+    public static double printFinalResults(int correctPredictions, int totalInputs) {
+        double accuracy = (double) ((double) correctPredictions / totalInputs);
         System.out.println("Correct Predictions: " + correctPredictions + " out of " + totalInputs);
-        System.out.println("Accuracy: " + (double) ((double) correctPredictions / (double) totalInputs) + "\n");
+        System.out.println("Accuracy: " + accuracy + "\n");
+        return accuracy;
     }
 
 }

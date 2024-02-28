@@ -58,17 +58,17 @@ public class NetworkBase {
     }
 
     /**
-     * Trains the network network using the training set.
+     * Trains the network using the provided dataset.
      *
-     * @param set       the training set
+     * @param set       the set
      * @param epochs    the epochs
      * @param loops     the loops
      * @param batchSize the batch size
+     * @return the accuracy of the network
      */
-    public void train(DataSet set, int epochs, int loops, int batchSize) {
+    public double train(DataSet set, int epochs, int loops, int batchSize) {
         // Iterates over each epoch
         for (int epoch = 0; epoch < epochs; epoch++) {
-            System.out.println("\rEpochs : " + epoch + "/" + epochs);
             for (int loop = 0; loop < loops; loop++) {
                 // Extracts a mini-batch from the training set
                 DataSet batch = set.extractBatch(batchSize);
@@ -83,30 +83,33 @@ public class NetworkBase {
                 }
             }
         }
-        System.out.println("Training neural network complete.\n");
+        double accuracy = evaluate(set);
+        return accuracy;
     }
 
     /**
-     * Evaluates the neural network's performance on the given dataset.
+     * Evaluates the network using the provided dataset.
      *
-     * @param trainingSet the training set
+     * @param dataSet the dataset
+     * @return the accuracy of the network
      */
-    public void evaluate(DataSet trainingSet) {
+    public double evaluate(DataSet dataSet) {
         int correct = 0;
         // Iterates over each data point in the dataset
-        for (int sampleIndex = 0; sampleIndex < trainingSet.size(); sampleIndex++) {
+        for (int sampleIndex = 0; sampleIndex < dataSet.size(); sampleIndex++) {
             // Forward pass to compute the network's prediction
-            double[] output = forward(trainingSet.getInput(sampleIndex));
+            double[] output = forward(dataSet.getInput(sampleIndex));
             // Determines the index of the highest output value
             double predictedIndex = Utility.returnIndexOfHighestValue(output);
-            double actualIndex = Utility.returnIndexOfHighestValue(trainingSet.getOutput(sampleIndex));
+            double actualIndex = Utility.returnIndexOfHighestValue(dataSet.getOutput(sampleIndex));
             // Increment correct count if prediction matches the actual value
             if (predictedIndex == actualIndex) {
                 correct++;
             }
         }
         // Prints the evaluation results
-        UserInterface.printFinalResults(correct, trainingSet.size());
+        double accuracy = UserInterface.printFinalResults(correct, dataSet.size());
+        return accuracy;
     }
 
     /**

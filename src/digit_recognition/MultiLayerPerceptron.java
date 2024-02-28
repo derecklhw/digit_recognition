@@ -21,12 +21,13 @@ public class MultiLayerPerceptron {
     final static int INPUT_LAYER_NODE_AMOUNT = 64;
 
     /**
-     * Creates and trains the neural network.
+     * Executes the multi-layer perceptron algorithm.
      *
      * @param firstDataset  the first dataset
      * @param secondDataset the second dataset
+     * @return the accuracy of the multi-layer perceptron algorithm
      */
-    public static void execute(int[][] firstDataset, int[][] secondDataset) {
+    public static double[] execute(int[][] firstDataset, int[][] secondDataset) {
         // Create the neural network
         NetworkBase network = new NetworkBase(new int[] { INPUT_LAYER_NODE_AMOUNT, FIRST_HIDDEN_LAYER_NODE_AMOUNT,
                 SECOND_HIDDEN_LAYER_NODE_AMOUNT, 10 });
@@ -36,18 +37,21 @@ public class MultiLayerPerceptron {
             // Create the testing set
             DataSet testSet = createSet(secondDataset);
 
-            System.out.println("Training neural network in progress...");
+            System.out.println("Training neural network...");
             // Train the neural network
-            network.train(set, TRAINING_EPOCHS_VALUE, TRAINING_LOOPS_VALUE,
+            double trainingAccuracy = network.train(set, TRAINING_EPOCHS_VALUE, TRAINING_LOOPS_VALUE,
                     TRAINING_BATCH_SIZE);
 
-            System.out.println("Testing neural network...\n");
+            System.out.println("Testing neural network...");
             // Test the neural network
-            network.evaluate(testSet);
+            double testingAccuracy = network.evaluate(testSet);
+
+            return new double[] { trainingAccuracy, testingAccuracy };
 
         } catch (FileNotFoundException ex) {
             System.out.println("Error when reading NN test or train file!");
         }
+        return null;
     }
 
     /**
