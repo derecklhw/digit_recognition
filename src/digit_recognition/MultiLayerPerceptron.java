@@ -27,17 +27,22 @@ public class MultiLayerPerceptron {
      * @param secondDataset the second dataset
      */
     public static void execute(int[][] firstDataset, int[][] secondDataset) {
+        // Create the neural network
         NetworkBase network = new NetworkBase(new int[] { INPUT_LAYER_NODE_AMOUNT, FIRST_HIDDEN_LAYER_NODE_AMOUNT,
                 SECOND_HIDDEN_LAYER_NODE_AMOUNT, 10 });
         try {
-            TrainingSet set = createSet(firstDataset);
-            TrainingSet testSet = createSet(secondDataset);
+            // Create the training set
+            DataSet set = createSet(firstDataset);
+            // Create the testing set
+            DataSet testSet = createSet(secondDataset);
 
             System.out.println("Training neural network in progress...");
+            // Train the neural network
             network.train(set, TRAINING_EPOCHS_VALUE, TRAINING_LOOPS_VALUE,
                     TRAINING_BATCH_SIZE);
 
             System.out.println("Testing neural network...\n");
+            // Test the neural network
             network.evaluate(testSet);
 
         } catch (FileNotFoundException ex) {
@@ -46,29 +51,36 @@ public class MultiLayerPerceptron {
     }
 
     /**
-     * Creates a training set from the dataset.
+     * Creates a dataset from the provided 2D array.
      *
-     * @param dataset the dataset
-     * @return the training set
+     * @param dataset the 2D array with the dataset
+     * @return the dataset
      * @throws FileNotFoundException if the file is not found
      */
-    public static TrainingSet createSet(int[][] dataset) throws FileNotFoundException {
-        TrainingSet set = new TrainingSet(INPUT_LAYER_NODE_AMOUNT, 10);
+    public static DataSet createSet(int[][] dataset) throws FileNotFoundException {
+        // Create a new dataset
+        DataSet set = new DataSet(INPUT_LAYER_NODE_AMOUNT, 10);
 
+        // Add the data to the dataset
         for (int[] row : dataset) {
             // The label is the last element in the row
             int label = row[row.length - 1];
 
             // Initialize an array to hold the input features
             double[] inputFeatures = new double[row.length - 1];
-            for (int i = 0; i < row.length - 1; i++) {
-                inputFeatures[i] = row[i];
+
+            // Store the input features in the array
+            for (int featureIndex = 0; featureIndex < row.length - 1; featureIndex++) {
+                inputFeatures[featureIndex] = row[featureIndex];
             }
 
             // Initialize an array to hold the output (label) for the input features
             double[] output = new double[10];
+
+            // Set the output (label) for the input features
             output[label] = 1d;
 
+            // Add the input features and the output to the dataset
             set.addData(inputFeatures, output);
         }
         return set;

@@ -13,12 +13,14 @@ public class Main {
 	 * @param args command line arguments
 	 */
 	public static void main(String[] args) {
+		// Check if the datasets are provided
 		if (!validateArguments(args)) {
 			return;
 		}
 		String trainingSetPath = args[0];
 		String testingSetPath = args[1];
 
+		// Load and execute the user's choice
 		loadAndExecute(trainingSetPath, testingSetPath);
 	}
 
@@ -59,11 +61,13 @@ public class Main {
 	 */
 	private static void loadAndExecute(String trainingSetPath, String testingSetPath) {
 		try {
+			// Read the datasets
 			int[][] trainingSet = DatasetReader.readDataset(trainingSetPath);
 			int[][] testingSet = DatasetReader.readDataset(testingSetPath);
 			System.out.printf("\nDatasets loaded\nTraining set: %s\nTesting set: %s\n\n", trainingSetPath,
 					testingSetPath);
 
+			// Execute the user's choice
 			try (Scanner scanner = new Scanner(System.in)) {
 				while (true) {
 					int choice = UserInterface.getUserChoice(scanner);
@@ -87,18 +91,14 @@ public class Main {
 	private static boolean executeChoice(int choice, int[][] trainingSet, int[][] testingSet) {
 		switch (choice) {
 			case 1:
-				System.out.println("Using Nearest Neighbour...\n");
-				NearestNeighbour.execute(trainingSet, testingSet);
-				break;
-			case 2:
 				System.out.println("Using K-Nearest Neighbour...\n");
 				KNearestNeighbours.execute(trainingSet, testingSet);
 				break;
-			case 3:
+			case 2:
 				System.out.println("Using Multilayer Layer Perceptron...\n");
 				MultiLayerPerceptron.execute(trainingSet, testingSet);
 				break;
-			case 4:
+			case 3:
 				System.out.println("Exiting...");
 				return false;
 			default:

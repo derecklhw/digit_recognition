@@ -8,6 +8,7 @@ import java.util.PriorityQueue;
  * Class responsible for the k-nearest neighbours algorithm.
  */
 public class KNearestNeighbours {
+    // Constants
     private static final int INPUT_FEATURES_SIZE = 64;
     private static final int K = 3;
 
@@ -18,13 +19,16 @@ public class KNearestNeighbours {
      * @param testingDataset  the testing dataset
      */
     public static void execute(int[][] trainingDataset, int[][] testingDataset) {
+        // Check if the datasets are null
         if (trainingDataset == null || testingDataset == null) {
             throw new IllegalArgumentException("Datasets cannot be null");
         }
 
+        // Extract features and labels from the datasets
         Dataset trainingDatasetExtracted = extractFeaturesAndLabels(trainingDataset);
         Dataset testingDatasetExtracted = extractFeaturesAndLabels(testingDataset);
 
+        // Evaluate the accuracy using the k-nearest neighbours algorithm
         evaluateAccuracyUsingKNearestNeighbours(trainingDatasetExtracted.features, trainingDatasetExtracted.labels,
                 testingDatasetExtracted.features, testingDatasetExtracted.labels, K);
     }
@@ -36,14 +40,18 @@ public class KNearestNeighbours {
      * @return the extracted features and labels
      */
     private static Dataset extractFeaturesAndLabels(int[][] dataset) {
+        // Create arrays to store the features and labels
         double[][] features = new double[dataset.length][INPUT_FEATURES_SIZE];
         int[] labels = new int[dataset.length];
 
-        for (int i = 0; i < dataset.length; i++) {
-            for (int j = 0; j < INPUT_FEATURES_SIZE; j++) {
-                features[i][j] = dataset[i][j];
+        // Extract the features and labels
+        for (int dataPointIndex = 0; dataPointIndex < dataset.length; dataPointIndex++) {
+            // The first 64 values in the dataset are the features
+            for (int featureIndex = 0; featureIndex < INPUT_FEATURES_SIZE; featureIndex++) {
+                features[dataPointIndex][featureIndex] = dataset[dataPointIndex][featureIndex];
             }
-            labels[i] = dataset[i][INPUT_FEATURES_SIZE];
+            // The last value in the dataset is the label
+            labels[dataPointIndex] = dataset[dataPointIndex][INPUT_FEATURES_SIZE];
         }
 
         return new Dataset(features, labels);
@@ -59,13 +67,20 @@ public class KNearestNeighbours {
      * @param k                the number of neighbours to consider
      */
     public static void evaluateAccuracyUsingKNearestNeighbours(
-            double[][] trainingFeatures, int[] trainingLabels,
-            double[][] testingFeatures, int[] testingLabels, int k) {
+            double[][] trainingFeatures,
+            int[] trainingLabels,
+            double[][] testingFeatures,
+            int[] testingLabels,
+            int k) {
         int correctPredictions = 0;
-        for (int i = 0; i < testingFeatures.length; i++) {
+        // Classify each test feature and count the correct predictions
+        for (int testIndex = 0; testIndex < testingFeatures.length; testIndex++) {
+            // Classify the test feature using the k-nearest neighbours algorithm
             int predictedLabel = classifyUsingKNearestNeighbours(trainingFeatures, trainingLabels,
-                    testingFeatures[i], k);
-            if (predictedLabel == testingLabels[i]) {
+                    testingFeatures[testIndex], k);
+            // Check if the predicted label is correct
+            if (predictedLabel == testingLabels[testIndex]) {
+                // Increment the number of correct predictions
                 correctPredictions++;
             }
         }
@@ -85,14 +100,22 @@ public class KNearestNeighbours {
      */
     private static int classifyUsingKNearestNeighbours(double[][] trainingFeatures, int[] trainingLabels,
             double[] testFeature, int k) {
+        // Create a priority queue to store the neighbours
         PriorityQueue<Neighbour> neighbours = new PriorityQueue<>(k, (a, b) -> Double.compare(b.distance, a.distance));
-        for (int i = 0; i < trainingFeatures.length; i++) {
-            double distance = Utility.calculateEuclideanDistance(trainingFeatures[i], testFeature);
+
+        // Find the k nearest neighbours
+        for (int trainingIndex = 0; trainingIndex < trainingFeatures.length; trainingIndex++) {
+            // Calculate the distance between the training feature and the test feature
+            double distance = Utility.calculateEuclideanDistance(trainingFeatures[trainingIndex], testFeature);
+            // Add the neighbour to the priority queue
             if (neighbours.size() < k) {
-                neighbours.add(new Neighbour(trainingLabels[i], distance));
+                // Add the neighbour if the queue is not full
+                neighbours.add(new Neighbour(trainingLabels[trainingIndex], distance));
             } else if (neighbours.peek().distance > distance) {
+                // Replace the neighbour with the largest distance if the queue is full and the
+                // new distance is smaller
                 neighbours.poll();
-                neighbours.add(new Neighbour(trainingLabels[i], distance));
+                neighbours.add(new Neighbour(trainingLabels[trainingIndex], distance));
             }
         }
 
@@ -106,12 +129,17 @@ public class KNearestNeighbours {
      * @return the most common label
      */
     private static int findMostCommonLabel(PriorityQueue<Neighbour> neighbours) {
+        // Create a map to store the counts of each label
         Map<Integer, Integer> counts = new HashMap<>();
+        // Count the occurrences of each label
         while (!neighbours.isEmpty()) {
+            // Get the next neighbour
             Neighbour neighbour = neighbours.poll();
+            // Increment the count of the label
             counts.put(neighbour.label, counts.getOrDefault(neighbour.label, 0) + 1);
         }
 
+        // Find the most common label
         return counts.entrySet().stream().max(Map.Entry.comparingByValue()).get().getKey();
     }
 
