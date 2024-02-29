@@ -8,16 +8,16 @@ import java.io.FileNotFoundException;
 public class MultiLayerPerceptron {
 
     // Constants for the neural network
-    public static final double LEARNING_RATE = 0.05;
+    public static final double LEARNING_RATE = 0.1;
     public final static double BIAS_RANGE_SMALLEST = -0.5;
     public final static double BIAS_RANGE_BIGGEST = 0.7;
     public final static double WEIGHTS_RANGE_SMALLEST = -1;
     public final static double WEIGHTS_RANGE_BIGGEST = 1;
-    final static int TRAINING_EPOCHS_VALUE = 250;
-    final static int TRAINING_LOOPS_VALUE = 500;
-    final static int TRAINING_BATCH_SIZE = 32;
-    final static int FIRST_HIDDEN_LAYER_NODE_AMOUNT = 26;
-    final static int SECOND_HIDDEN_LAYER_NODE_AMOUNT = 15;
+    final static int TRAINING_EPOCHS_VALUE = 200;
+    final static int TRAINING_LOOPS_VALUE = 250;
+    final static int TRAINING_BATCH_SIZE = 33;
+    final static int FIRST_HIDDEN_LAYER_NODE_AMOUNT = 31;
+    final static int SECOND_HIDDEN_LAYER_NODE_AMOUNT = 10;
     final static int INPUT_LAYER_NODE_AMOUNT = 64;
 
     /**
